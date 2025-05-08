@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CSS Animation & localStorage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      transition: background-color 0.5s, color 0.5s;
+      padding: 50px;
+      text-align: center;
+    }
+
+    body.light {
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    body.dark {
+      background-color: #121212;
+      color: #ffffff;
+    }
+
+    .btn {
+      padding: 15px 25px;
+      font-size: 18px;
+      border: none;
+      background-color: #3498db;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+    }
+
+    .animate {
+      animation: pulse 0.6s ease-out;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        background-color: #3498db;
+      }
+      50% {
+        transform: scale(1.2);
+        background-color: #2ecc71;
+      }
+      100% {
+        transform: scale(1);
+        background-color: #3498db;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Toggle Theme + Animate Button</h1>
+  <button id="themeBtn" class="btn">Toggle Theme</button>
+  <button id="animateBtn" class="btn" style="margin-top: 20px;">Click Me!</button>
+
+  <script>
+    // Load theme from localStorage
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    document.body.classList.add(currentTheme);
+
+    // Toggle theme and store preference
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      document.body.classList.toggle('light');
+      const newTheme = document.body.classList.contains('dark') ? 'dark' : 'light';
+      localStorage.setItem('theme', newTheme);
+    });
+
+    // Animate button on click
+    const animateBtn = document.getElementById('animateBtn');
+    animateBtn.addEventListener('click', () => {
+      animateBtn.classList.add('animate');
+      setTimeout(() => animateBtn.classList.remove('animate'), 600);
+    });
+  </script>
+</body>
+</html>
